@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <h1>Using Indexed DB</h1>
+    </header>
+    <main>
+      <form>
+        <label>Movie Id : <input type="text" id="txtmovieid" /> </label> <br />
+        <label>Movie Name : <input type="text" id="txtmoviename" /> </label>
+        <br />
+        <label
+          >Movie Theatre : <input type="text" id="txtmovietheatre" />
+        </label>
+        <br />
+        <label>Movie Budget : <input type="text" id="txtmoviebudget" /> </label>
+        <br />
+        <input type="button" value="Store" id="btnStore" />
+        <input
+          type="button"
+          value="Retreive"
+          id="btnRetreive"
+          onclick="Retreive()"
+        />
+      </form>
+    </main>
+    <script>
+      // if(window.indexedDB)
+      var db;
+      window.indexedDB =
+        window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB;
+      if (!window.indexedDB) {
+        alert("Your browser doesn't support INDEXED DB !");
+      } else {
+        // DB creation
+        // Define Object Store
+        // Store data
+        // Retreive Data
+
+        var connection = window.indexedDB.open("moviesDB", 1);
+        // movieDB is name of db , 1 is version
+        connection.onsuccess = function (e) {
+          db = e.target.result; // access to database
+          console.log("Connection opened successfully !");
+        };
+
+        connection.onerror = function (e) {
+          console.log("Error opening the connection !");
+        };
+
+        connection.onupgradeneeded = function (e) {
+          db = e.target.result; // access to database
+          var moviesOS = db.createObjectStore("movies"); // table / collection
+          moviesOS.createIndex("m_id", "id", { unique: true }); //index, keypath, ojectparameter
+        };
+
+        var btnStore = document.querySelector("#btnStore");
+        btnStore.addEventListener("click", addMovieToStore);
+      }
+
+      function addMovieToStore() {
+        let id = document.querySelector("#txtmovieid").value;
+        let name = document.querySelector("#txtmoviename").value;
+        let theatre = document.querySelector("#txtmovietheatre").value;
+        let budget = document.querySelector("#txtmoviebudget").value;
+
+        var newMovie = { id, name, theatre, budget };
+        var txn = db.transaction(["movies"], "readwrite");
+        var store = txn.objectStore("movies");
+        store.add(newMovie, id); // inserting data in DB
+      }
+
+      function Retreive() {
+        var txn = db.transaction(["movies"], "readwrite");
+        var store = txn.objectStore("movies");
+        var movieId = document.querySelector("#txtmovieid").value;
+        var req = store.get(movieId);
+        req.onsuccess = function (e) {
+          console.log(e.target.result);
+        };
+      }
+    </script>
+  </body>
+</html>
