@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <h1>Sign up for news letter</h1>
+        <form>
+            <label> Full Name
+                <input type="text" id="name" placeholder="Full Name">
+            </label>
+            <label>Email
+                <input type="text" id="email" placeholder="Email">
+            </label>
+            <button id="news_letter" type="submit">Submit</button>
+            <button id="clear">Clear</button>
+        </form>
+    </main>
+    <script>
+        var form = document.getElementById('news_letter');
+        form.addEventListener('click', function(e) {
+            e.preventDefault();
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var users = [];
+            if (sessionStorage.getItem('users_sessionstorage') != null) {
+                users = JSON.parse(sessionStorage.getItem('users_sessionstorage'));
+                let index = users.findIndex(u => u.email.toLocaleLowerCase() === email.toLocaleLowerCase());
+                if (index != -1) {
+                    alert("already registered");
+                    return 
+                }
+            }
+            users.push({ name, email });
+            sessionStorage.setItem('users_sessionstorage', JSON.stringify(users))
+        })
+        document.getElementById('clear').addEventListener('click', function () {
+            sessionStorage.clear();
+        })
+    </script>
+</body>
+</html>
