@@ -5,6 +5,8 @@ import Layouteffect from './topics/layouteffetct/index';
 import Contaienr from './styled-component/basic'
 import { GloabalStyles } from './styled-component/global';
 import { ThemeProvider } from 'styled-components';
+  import {MyContext} from './topics/contextAPI/xonntext';
+import DashBoard from './topics/contextAPI/Dashboard';
 function App() {
   const theme = {
     colors: {
@@ -13,13 +15,20 @@ function App() {
   }
   return (
     <>
+    <MyContext.Provider value={{
+      name: 'Niket K',
+      position: 'ASL'
+    }}>
+
       <ThemeProvider theme={theme}>
         <GloabalStyles/>
         <HOC/>
         <RenderProps/>
         <Layouteffect />  
         <Contaienr bg="blue"/>
+        <DashBoard/>
       </ThemeProvider>
+    </MyContext.Provider>
     </>
   );
 }
