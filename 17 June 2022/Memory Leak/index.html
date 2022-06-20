@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <script>
+        var x = []
+        
+        var running = false
+        function grow() {
+            x.push(new Array(100000))        
+            if(running) {
+                setTimeout(grow, 1000);
+            }
+        }
+        function stop() {
+            x = null
+            running = false
+        }
+        document.getElementById('start').addEventListener('click', grow)
+        document.getElementById('stop').addEventListener('click', stop)
+    </script>
+</body>
+</html>

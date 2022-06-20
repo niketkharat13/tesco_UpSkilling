@@ -1,0 +1,23 @@
+.container {
+    margin: 15px;
+    display: grid;
+    grid-template-columns: 200px 300px 400px 1fr;
+    grid-template-rows: 100px 200px 100px;
+
+}
+.el1 {
+    background-color: red;
+}
+.el2 {
+    background-color: orange;
+}
+.el3 {
+    background-color: blueviolet;
+    grid-column-start: 3;
+    grid-column-end: span 2;
+    grid-row-start: 2;
+    grid-row-end: span 2;
+}
+.el4 {
+    background-color: brown;
+}
