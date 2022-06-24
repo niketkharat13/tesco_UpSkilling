@@ -10,4 +10,3 @@ let arr = [1,2,3];
 let mappolyfills = arr.mapFunction((a) => {
     return a * 2
 })
-console.log(mappolyfills);
